@@ -1,30 +1,44 @@
-<?php 
+<?php
+
 namespace App\Models;
 
-use App\Models\DB;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User
+class User extends Authenticatable
 {
-    protected $username;
-    protected $firstname;
-    protected $lastname;
-    
-    function __construct() 
-    {
-        $user = $this->getUserData($_SESSION['login']);
-        $username = $user["Username"];
-        $firstname = $user["FirstName"];
-        $lastname = $user["LastName"];
-    }
+    use HasApiTokens, HasFactory, Notifiable;
 
-    function getUserData($id)
-    {
-        $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-        $query = sprintf("SELECT * FROM users WHERE ID = '%s';",
-            $conn->real_escape_string($id));
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
 
-        $result = mysqli_query($conn, $query);
-        $user = mysqli_fetch_assoc($result);
-        return $user;
-    }
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 }
