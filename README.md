@@ -28,6 +28,6 @@ After the installation on your local or container, run the following command:
 ```
 - Rename .env.example to .env
 - Edit the DB_ information in the .env and save it
-- Run the following commands: php artisan key:generate - php artisan migrate
+- Run the following commands: composer install & php artisan key:generate & php artisan migrate
 - Execute the next command to run the application: php artisan serve
 ```
