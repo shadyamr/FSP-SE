@@ -34,4 +34,9 @@ Route::get('/requests', function () {
     return view('requests');
 })->middleware(['auth', 'verified'])->name('requests');
 
+Route::post('/inspections', [InspectionController::class, 'store'])->name('requests.store');
+Route::get('/inspections', function () {
+    return view('inspections');
+})->middleware(['auth', 'verified'])->name('inspections');
+
 require __DIR__.'/auth.php';
