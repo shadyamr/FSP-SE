@@ -13,4 +13,9 @@ class RequestsForm extends Model
     protected $fillable = [
         'corporate_name', 'corporate_address', 'corporate_budget', 'client_extra', 'handler'
     ];
+
+    public function handler()
+    {
+        return $this->belongsTo(User::class, 'handler', 'id');
+    }
 }

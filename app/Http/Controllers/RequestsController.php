@@ -22,14 +22,7 @@ class RequestsController extends Controller
     public function index()
     {
         //$requests_all = RequestsForm::all();
-        $requests_all = RequestsForm::select(DB::raw('*,
-                                                            requests.id AS requestID,
-                                                            requests.updated_at AS requestUpdated,
-                                                            requests.created_at AS requestCreated,
-                                                            users.id AS handlerID,
-                                                            users.name as handlerName'))
-                                    ->leftJoin('users', 'requests.handler', '=', 'users.id')
-                                    ->get();
+        $requests_all = RequestsForm::with('handler')->get();
         return view('requests', compact('requests_all'));
     }
 
@@ -46,5 +39,21 @@ class RequestsController extends Controller
         RequestsForm::create($data);
         
         return redirect()->back()->with('success', 'Request submitted successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $requests = RequestsForm::findOrFail($id);
+        $requests->delete();
+
+        return redirect()->back()->with('success', 'Request deleted successfully.');
+    }
+
+    public function edit($id)
+    {
+        //$ = RequestsForm::findOrFail(1);
+        $requests = RequestsForm::where('id', $id);
+
+        return view('edit-requests', compact('requests'));
     }
 }

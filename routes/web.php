@@ -28,6 +28,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/', [RequestsController::class, 'index'])->name('requests');
         Route::post('store', [RequestsController::class, 'store'])->name('requests.store');
+        Route::prefix('{id}')->group(function () {
+            Route::get('edit', [RequestsController::class, 'edit'])->name('requests.edit');
+            Route::get('delete', [RequestsController::class, 'destroy'])->name('requests.delete');
+        });
     });
 });
 
