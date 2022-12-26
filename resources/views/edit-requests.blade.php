@@ -2,46 +2,60 @@
 
 @section('content')
 
-            <div class="container">
-                <div class="h-100 p-5 bg-light border rounded-3">
-                    <h2 class="fw-bold">Edit Request</h2>
-                    <div class="d-inline">
-                        <p>Editing the request of </p>
-                    </div>
-       
-                        <table class="table table-hover table-striped table-dark table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Corporate Name</th>
-                                    <th scope="col">Address</th>
-                                    <th scope="col">Sales Handler</th>
-                                    <th scope="col">Created At</th>
-                                    <th scope="col">Updated At</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($requests as $requesta)
-                                    <tr>
-                                        <td scope="row">{{ $requesta->requestID }}</td>
-                                        <td>{{ $requesta->corporate_name }}</td>
-                                        <td>{{ $requesta->corporate_address }}</td>
-                                        <td>{{ $requesta->handlerName ?? "Vacant" }}</td>
-                                        <td>{{ $requesta->requestCreated }}</td>
-                                        <td>{{ $requesta->requestUpdated }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                   
-                    @if (session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @elseif (session('error'))
-                        <div class="alert alert-success">{{ session('error') }}</div>
-                    @endif
-                </div>
+<div class="container">
+    <div class="h-100 p-5 bg-light border rounded-3">
+        <h2 class="fw-bold">Edit Request — (ID: {{ $edit_requests->id }})</h2>
+        <div class="d-inline">
+            <p>Editing the request of {{ $edit_requests->corporate_name }}</p>
+        </div>
+
+        <form method="POST" action="{{ route('requests.store.edit', $edit_requests->id) }}">
+        @csrf
+            <div class="mb-3">
+                <label for="corporate_name" class="form-label">Corporate Name</label>
+                <input type="text" class="form-control" id="corporate_name" name="corporate_name" value="{{ $edit_requests->corporate_name }}" required autofocus>
             </div>
+            <div class="mb-3">
+                <label for="corporate_address" class="form-label">Address</label>
+                <input type="text" class="form-control" id="corporate_address" name="corporate_address" value="{{ $edit_requests->corporate_address }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="corporate_budget" class="form-label">Budget</label>
+                <input type="number" class="form-control" id="corporate_budget" name="corporate_budget" value="{{ $edit_requests->corporate_budget }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="client_extra" class="form-label">Additional Information</label>
+                <textarea class="form-control" id="client_extra" name="client_extra" rows="3" required>{{ $edit_requests->client_extra }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="handler" class="form-label">Sales Handler</label>
+                <select class="form-select" name="handler" id="handler">
+                    @foreach($users as $user)
+                        @if(!empty($edit_requests->user->id))
+                            @if($edit_requests->user->id == $user->id)
+                                <option value="{{ $user->id }}" selected>{{ $user->name }}</option>
+                            @else
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endif
+                        @else
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+            <div class="d-inline mb-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href=".." class="btn btn-secondary">Go Back</a>
+            </div>
+        </form>
+
+        @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+        @elseif (session('error'))
+        <div class="alert alert-success">{{ session('error') }}</div>
+        @endif
+    </div>
+</div>
 
 @endsection
 @section('scripts')
@@ -52,12 +66,14 @@
         var corporateAddress = document.getElementById('corporate_address').value;
         var corporateBudget = document.getElementById('corporate_budget').value;
         var clientExtra = document.getElementById('client_extra').value;
+        var handler = document.getElementById('handler').value;
 
-        axios.post('/requests', {
+        axios.post('/edit_requests', {
                 corporate_name: corporateName,
                 corporate_address: corporateAddress,
                 corporate_budget: corporateBudget,
-                client_extra: clientExtra
+                client_extra: clientExtra,
+                handler: handler
             })
             .then(function(response) {
                 console.log(response);

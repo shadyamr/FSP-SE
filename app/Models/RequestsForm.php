@@ -14,7 +14,7 @@ class RequestsForm extends Model
         'corporate_name', 'corporate_address', 'corporate_budget', 'client_extra', 'handler'
     ];
 
-    public function handler()
+    public function user()
     {
         return $this->belongsTo(User::class, 'handler', 'id');
     }

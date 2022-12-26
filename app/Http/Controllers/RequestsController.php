@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\RequestsForm;
 
+use App\Models\User;
+
 use Auth;
 
 class RequestsController extends Controller
@@ -21,8 +23,8 @@ class RequestsController extends Controller
 
     public function index()
     {
-        //$requests_all = RequestsForm::all();
-        $requests_all = RequestsForm::with('handler')->get();
+        // get all requests with the handler information via relationship
+        $requests_all = RequestsForm::with('user')->get();
         return view('requests', compact('requests_all'));
     }
 
@@ -52,8 +54,24 @@ class RequestsController extends Controller
     public function edit($id)
     {
         //$ = RequestsForm::findOrFail(1);
-        $requests = RequestsForm::where('id', $id);
+        $edit_requests = RequestsForm::find($id);
+        $users = User::all();
+        //return $edit_requests;
+        return view('edit-requests', compact('edit_requests', 'users'));
+    }
 
-        return view('edit-requests', compact('requests'));
+    public function store_edit($id, Request $request)
+    {
+        $requests = RequestsForm::find($id);
+        
+        $requests->corporate_name = $request->input('corporate_name');
+        $requests->corporate_address = $request->input('corporate_address');
+        $requests->corporate_budget = $request->input('corporate_budget');
+        $requests->client_extra = $request->input('client_extra');
+        $requests->handler = $request->input('handler');
+        
+        $requests->save();
+
+        return redirect()->back()->with('success', 'Request edited successfully.');
     }
 }

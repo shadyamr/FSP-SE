@@ -22,14 +22,11 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::prefix('requests')->group(function () {
-        /*Route::get('/', function () {
-            return view('requests');
-         })->name('requests');*/
-
         Route::get('/', [RequestsController::class, 'index'])->name('requests');
         Route::post('store', [RequestsController::class, 'store'])->name('requests.store');
         Route::prefix('{id}')->group(function () {
             Route::get('edit', [RequestsController::class, 'edit'])->name('requests.edit');
+            Route::post('edit/store', [RequestsController::class, 'store_edit'])->name('requests.store.edit');
             Route::get('delete', [RequestsController::class, 'destroy'])->name('requests.delete');
         });
     });
