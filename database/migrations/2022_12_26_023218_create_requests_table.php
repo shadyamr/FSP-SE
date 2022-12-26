@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('corporate_address');
             $table->integer('corporate_budget');
             $table->longText('client_extra');
+            $table->integer('handler')->nullable();
             $table->timestamps();
         });
     }

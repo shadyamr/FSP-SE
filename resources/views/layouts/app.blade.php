@@ -22,14 +22,8 @@
                         <li class="nav-item">
                             <a class="nav-link {{ (request()->is('home')) ? 'active' : '' }}" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ (request()->is('requests/*')) ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Requests
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('requests.create') }}"><i class="fa-solid fa-pen-to-square"></i> Create Request</a></li>
-                                <li><a class="dropdown-item" href="#">View Requests</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (request()->is('requests')) ? 'active' : '' }}" href="{{ route('requests') }}">{{ __('Requests') }}</a>
                         </li>
                         @endguest
                     </ul>
