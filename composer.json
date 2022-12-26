@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "shadyamr/fsp-se",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "FSP Software Engineering.",
+    "keywords": ["project", "university"],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",

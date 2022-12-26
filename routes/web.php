@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RequestsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +19,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::prefix('requests')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('requests.create');
+         });
+    
+        Route::get('/create', function () {
+           return view('requests');
+        })->name('requests.create');
+    
+        Route::post('store', [RequestsController::class, 'store'])->name('requests.store');
+    });
+});
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes();

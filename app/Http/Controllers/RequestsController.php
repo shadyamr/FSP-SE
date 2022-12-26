@@ -1,13 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 use App\Http\Controllers\Controller;
+
 use App\Models\RequestsForm;
 
 class RequestsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function store(Request $request)
     {
         $data = [
@@ -18,8 +25,7 @@ class RequestsController extends Controller
         ];
 
         RequestsForm::create($data);
-        return response()->json([
-            'message' => 'Client added successfully!'
-        ]);
+        
+        return redirect()->back()->with('success', 'Request submitted successfully.');
     }
 }
