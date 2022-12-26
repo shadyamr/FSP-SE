@@ -43,16 +43,16 @@
                     @endforeach
                 </select>
             </div>
-            <div class="d-inline mb-2">
+            <div class="d-inline">
                 <button type="submit" class="btn btn-primary">Save</button>
                 <a href=".." class="btn btn-secondary">Go Back</a>
             </div>
         </form>
 
         @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="mt-2 alert alert-success">{{ session('success') }}</div>
         @elseif (session('error'))
-        <div class="alert alert-success">{{ session('error') }}</div>
+        <div class="mt-2 alert alert-success">{{ session('error') }}</div>
         @endif
     </div>
 </div>
