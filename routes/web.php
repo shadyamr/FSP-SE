@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RequestsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,24 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', function () {
-    return view('home');
-})->middleware(['auth', 'verified'])->name('home');
+Auth::routes();
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::post('/requests', [RequestsController::class, 'store'])->name('requests.store');
-Route::get('/requests', function () {
-    return view('requests');
-})->middleware(['auth', 'verified'])->name('requests');
-
-Route::post('/inspections', [InspectionController::class, 'store'])->name('requests.store');
-Route::get('/inspections', function () {
-    return view('inspections');
-})->middleware(['auth', 'verified'])->name('inspections');
-
-require __DIR__.'/auth.php';
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
