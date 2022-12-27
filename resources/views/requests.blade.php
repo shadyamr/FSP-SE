@@ -3,45 +3,45 @@
 @section('content')
 
 <div class="container">
+    <h1><span class="badge rounded-pill bg-dark">Requests</span></h1>
     <div class="h-100 p-5 bg-light border rounded-3">
-        <h2 class="fw-bold">Requests</h2>
-        <div class="d-inline">
-            <p>Corporate requests for fire protection services</p>
-            <button type="button" class="btn btn-success float-end mb-2" data-bs-toggle="modal" data-bs-target="#makeRequestModal">
-                Make Request
-            </button>
-        </div>
+        <button type="button" class="btn btn-success float-end mb-2" data-bs-toggle="modal" data-bs-target="#makeRequestModal">
+            Make Request
+        </button>
+        <br><br>
         @if(count($requests_all) > 0)
-        <table class="table table-hover table-striped table-dark table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Corporate Name</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Sales Handler</th>
-                    <th scope="col">Created At</th>
-                    <th scope="col">Updated At</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($requests_all as $requests)
-                <tr>
-                    <td scope="row">{{ $requests->id }}</td>
-                    <td>{{ $requests->corporate_name }}</td>
-                    <td>{{ $requests->corporate_address }}</td>
-                    <td>{{ $requests->user->name ?? "Vacant" }}</td>
-                    <td>{{ $requests->created_at }}</td>
-                    <td>{{ $requests->updated_at }}</td>
-                    <td>
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $requests->requestID }}">View</button>
-                        <a href="{{ route('requests.edit', $requests->id) }}" class="btn btn-sm btn-secondary">Edit</a>
-                        <a href="{{ route('requests.delete', $requests->id) }}" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-dark table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Corporate Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Sales Handler</th>
+                        <th scope="col">Created At</th>
+                        <th scope="col">Updated At</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($requests_all as $requests)
+                    <tr>
+                        <td scope="row">{{ $requests->id }}</td>
+                        <td>{{ $requests->corporate_name }}</td>
+                        <td>{{ $requests->corporate_address }}</td>
+                        <td>{{ $requests->user->name ?? "Vacant" }}</td>
+                        <td>{{ $requests->created_at }}</td>
+                        <td>{{ $requests->updated_at }}</td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $requests->id }}">View</button>
+                            <a href="{{ route('requests.edit', $requests->id) }}" class="btn btn-sm btn-secondary mb-2">Edit</a>
+                            <a href="{{ route('requests.delete', $requests->id) }}" class="btn btn-sm btn-danger mb-2">Delete</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
         @else
         <table class="table table-hover table-striped table-dark table-bordered">
             <thead>
@@ -99,7 +99,7 @@
 </div>
 @if(count($requests_all) > 0)
 @foreach ($requests_all as $requests)
-<div class="modal fade" id="viewModal-{{ $requests->requestID }}" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewModal-{{ $requests->id }}" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -107,33 +107,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-6 col-sm-4">
-                        ID: {{ $requests->id }}
+                <div class="card">
+                    <h5 class="card-header"><span class="fw-bold">Name: </span>{{ $requests->corporate_name }}</h5>
+                    <div class="card-body">
+                        <h5 class="card-title"><span class="fw-bold">Address:</span> {{ $requests->corporate_address }}</h5>
+                        <p class="card-text"><span class="fw-bold">Budget: </span> {{ __('EGP ') . number_format($requests->corporate_budget, 2) }}</p>
+                        <p class="card-text">
+                            <span class="fw-bold">Description:</span>
+                            {{ $requests->client_extra }}
+                        </p>
+                        <p class="card-text">
+                            <span class="fw-bold">Sales Handler:</span>
+                            {{ $requests->user->name }}
+                        </p>
                     </div>
-                    <div class="col-6 col-sm-4">
-                        Corporate Name: {{ $requests->corporate_name }}
-                    </div>
-
-                    <div class="w-100 d-none d-md-block"></div>
-
-                    <div class="col-6 col-sm-4">
-                        Address: {{ $requests->corporate_address }}
-                    </div>
-                    <div class="col-6 col-sm-4">
-                        Budget: {{ $requests->corporate_budget }}
-                    </div>
-
-                    <div class="w-100 d-none d-md-block"></div>
-
-                    <div class="col-8 col-sm-4 justify-content-center">
-                        Additional Information: {{ $requests->client_extra }}
-                    </div>
-                    <div class="col-8 col-sm-4 justify-content-center">
-                        s
-                    </div>
-
-                    <div class="w-100 d-none d-md-block"></div>
                 </div>
             </div>
             <div class="modal-footer">
