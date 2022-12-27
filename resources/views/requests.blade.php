@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" onclick="addClient()" class="mb-2 btn btn-primary">Add Client</button>
+                    <button type="submit" onclick="addClient()" class="mb-2 btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
@@ -109,27 +109,27 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-6 col-sm-4">
-                        s
+                        ID: {{ $requests->id }}
                     </div>
                     <div class="col-6 col-sm-4">
-                        s
+                        Corporate Name: {{ $requests->corporate_name }}
                     </div>
 
                     <div class="w-100 d-none d-md-block"></div>
 
                     <div class="col-6 col-sm-4">
-                        s
+                        Address: {{ $requests->corporate_address }}
                     </div>
                     <div class="col-6 col-sm-4">
-                        s
+                        Budget: {{ $requests->corporate_budget }}
                     </div>
 
                     <div class="w-100 d-none d-md-block"></div>
 
-                    <div class="col-6 col-sm-4 justify-content-center">
-                        s
+                    <div class="col-8 col-sm-4 justify-content-center">
+                        Additional Information: {{ $requests->client_extra }}
                     </div>
-                    <div class="col-6 col-sm-4 justify-content-center">
+                    <div class="col-8 col-sm-4 justify-content-center">
                         s
                     </div>
 
