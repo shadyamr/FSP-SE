@@ -25,6 +25,9 @@
                         <li class="nav-item">
                             <a class="nav-link {{ (request()->is('requests')) ? 'active' : '' }}" href="{{ route('requests') }}">{{ __('Requests') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (request()->is('inspections')) ? 'active' : '' }}" href="{{ route('inspections') }}">{{ __('Inspections') }}</a>
+                        </li>
                         @endguest
                     </ul>
 

@@ -16,9 +16,14 @@ return new class extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->string('corporate_name');
-            $table->string('corporate_address');
+            $table->text('corporate_address');
             $table->integer('corporate_budget');
+            $table->string('corporate_owner');
+            $table->string('corporate_mobile');
+            $table->string('corporate_phone');
+            $table->text('corporate_email');
             $table->longText('client_extra');
+            $table->integer('status')->default(1);
             $table->integer('handler')->nullable();
             $table->timestamps();
         });

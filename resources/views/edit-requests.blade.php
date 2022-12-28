@@ -16,12 +16,28 @@
                 <input type="text" class="form-control" id="corporate_name" name="corporate_name" value="{{ $edit_requests->corporate_name }}" required autofocus>
             </div>
             <div class="mb-3">
-                <label for="corporate_address" class="form-label">Address</label>
+                <label for="corporate_address" class="form-label">Corporate Address</label>
                 <input type="text" class="form-control" id="corporate_address" name="corporate_address" value="{{ $edit_requests->corporate_address }}" required>
             </div>
             <div class="mb-3">
-                <label for="corporate_budget" class="form-label">Budget</label>
-                <input type="number" class="form-control" id="corporate_budget" name="corporate_budget" value="{{ $edit_requests->corporate_budget }}" required>
+                <label for="corporate_budget">Corporate Budget:</label>
+                <input class="form-control" type="number" name="corporate_budget" id="corporate_budget" min="1000" max="5000000" value="{{ $edit_requests->corporate_budget }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="corporate_owner">Corporate Owner:</label>
+                <input class="form-control" type="text" name="corporate_owner" id="corporate_owner" value="{{ $edit_requests->corporate_owner }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="corporate_mobile">Corporate Mobile:</label>
+                <input class="form-control" type="tel" name="corporate_mobile" id="corporate_mobile" placeholder="01002010222" pattern="[0-9]{11}" value="{{ $edit_requests->corporate_mobile }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="corporate_phone">Corporate Phone:</label>
+                <input class="form-control" type="tel" name="corporate_phone" id="corporate_phone" placeholder="0227715506" pattern="[0-9]{10}" value="{{ $edit_requests->corporate_phone }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="corporate_budget">Corporate Email:</label>
+                <input class="form-control" type="email" name="corporate_email" id="corporate_email" value="{{ $edit_requests->corporate_email }}" required>
             </div>
             <div class="mb-3">
                 <label for="client_extra" class="form-label">Additional Information</label>
@@ -65,6 +81,10 @@
         var corporateName = document.getElementById('corporate_name').value;
         var corporateAddress = document.getElementById('corporate_address').value;
         var corporateBudget = document.getElementById('corporate_budget').value;
+        var corporateOwner = document.getElementById('corporate_owner').value;
+        var corporateMobile = document.getElementById('corporate_mobile').value;
+        var corporatePhone = document.getElementById('corporate_phone').value;
+        var corporateEmail = document.getElementById('corporate_email').value;
         var clientExtra = document.getElementById('client_extra').value;
         var handler = document.getElementById('handler').value;
 
@@ -72,6 +92,10 @@
                 corporate_name: corporateName,
                 corporate_address: corporateAddress,
                 corporate_budget: corporateBudget,
+                corporate_owner: corporateOwner,
+                corporate_mobile: corporateMobile,
+                corporate_phone: corporatePhone,
+                corporate_email: corporateEmail,
                 client_extra: clientExtra,
                 handler: handler
             })

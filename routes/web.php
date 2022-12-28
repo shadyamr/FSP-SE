@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RequestsController;
+use App\Http\Controllers\InspectionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,15 +33,15 @@ Route::middleware(['auth'])->group(function () {
         });
     });
     /* Inspections */
-    /*Route::prefix('inspections')->group(function () {
-        Route::get('/', [RequestsController::class, 'index'])->name('requests');
-        Route::post('store', [RequestsController::class, 'store'])->name('requests.store');
-        Route::prefix('{id}')->group(function () {
+    Route::prefix('inspections')->group(function () {
+        Route::get('/', [InspectionController::class, 'index'])->name('inspections');
+        //Route::post('store', [RequestsController::class, 'store'])->name('requests.store');
+        /*Route::prefix('{id}')->group(function () {
             Route::get('edit', [RequestsController::class, 'edit'])->name('requests.edit');
             Route::post('edit/store', [RequestsController::class, 'store_edit'])->name('requests.store.edit');
             Route::get('delete', [RequestsController::class, 'destroy'])->name('requests.delete');
-        });
-    });*/
+        });*/
+    });
 });
 
 Auth::routes();

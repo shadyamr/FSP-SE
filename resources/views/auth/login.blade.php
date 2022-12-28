@@ -45,9 +45,7 @@
 
 <form method="POST" action="{{ route('login') }}">
     @csrf
-
     <div class="form-floating">
-
         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
         <label for="email">{{ __('Email Address') }}</label>
         @error('email')
@@ -58,8 +56,6 @@
     </div>
 
     <div class="form-floating">
-
-
         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
         <label for="password">{{ __('Password') }}</label>
         @error('password')
@@ -67,9 +63,7 @@
             <strong>{{ $message }}</strong>
         </span>
         @enderror
-
     </div>
-
     <div class="checkbox mb-3">
         <label class="form-check-label" for="remember">
             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
@@ -79,13 +73,5 @@
     <button type="submit" class="w-100 btn btn-lg btn-primary">
         {{ __('Login') }}
     </button>
-
-    @if (Route::has('password.request'))
-    <a class="btn btn-link mt-2" href="{{ route('password.request') }}">
-        {{ __('Forgot Your Password?') }}
-    </a>
-    @endif
-    </div>
-    </div>
 </form>
 @endsection

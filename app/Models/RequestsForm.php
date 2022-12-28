@@ -11,7 +11,15 @@ class RequestsForm extends Model
     protected $table = 'requests';
 
     protected $fillable = [
-        'corporate_name', 'corporate_address', 'corporate_budget', 'client_extra', 'handler'
+        'corporate_name',
+        'corporate_address',
+        'corporate_budget',
+        'corporate_owner',
+        'corporate_mobile',
+        'corporate_phone',
+        'corporate_email',
+        'client_extra',
+        'handler'
     ];
 
     public function user()

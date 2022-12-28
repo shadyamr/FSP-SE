@@ -34,6 +34,10 @@ class RequestsController extends Controller
             'corporate_name' => $request->input('corporate_name'),
             'corporate_address' => $request->input('corporate_address'),
             'corporate_budget' => $request->input('corporate_budget'),
+            'corporate_owner' => $request->input('corporate_owner'),
+            'corporate_mobile' => $request->input('corporate_mobile'),
+            'corporate_phone' => $request->input('corporate_phone'),
+            'corporate_email' => $request->input('corporate_email'),
             'client_extra' => $request->input('client_extra'),
             'handler' => Auth::user()->id,
         ];
@@ -67,6 +71,10 @@ class RequestsController extends Controller
         $requests->corporate_name = $request->input('corporate_name');
         $requests->corporate_address = $request->input('corporate_address');
         $requests->corporate_budget = $request->input('corporate_budget');
+        $requests->corporate_owner = $request->input('corporate_owner');
+        $requests->corporate_mobile = $request->input('corporate_mobile');
+        $requests->corporate_phone = $request->input('corporate_phone');
+        $requests->corporate_email = $request->input('corporate_email');
         $requests->client_extra = $request->input('client_extra');
         $requests->handler = $request->input('handler');
         

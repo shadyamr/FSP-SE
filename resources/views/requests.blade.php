@@ -83,7 +83,23 @@
                     </div>
                     <div class="mb-3">
                         <label for="corporate_budget">Corporate Budget:</label>
-                        <input class="form-control" type="number" name="corporate_budget" id="corporate_budget" required>
+                        <input class="form-control" type="number" name="corporate_budget" id="corporate_budget" min="1000" max="5000000" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="corporate_owner">Corporate Owner:</label>
+                        <input class="form-control" type="text" name="corporate_owner" id="corporate_owner" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="corporate_mobile">Corporate Mobile:</label>
+                        <input class="form-control" type="tel" name="corporate_mobile" id="corporate_mobile" placeholder="01002010222" pattern="[0-9]{11}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="corporate_phone">Corporate Phone:</label>
+                        <input class="form-control" type="tel" name="corporate_phone" id="corporate_phone" placeholder="0227715506" pattern="[0-9]{10}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="corporate_budget">Corporate Email:</label>
+                        <input class="form-control" type="email" name="corporate_email" id="corporate_email" required>
                     </div>
                     <div class="mb-3">
                         <label for="client_extra">Additional Information:</label>
@@ -108,10 +124,30 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <h5 class="card-header"><span class="fw-bold">Name: </span>{{ $requests->corporate_name }}</h5>
+                    <h5 class="card-header">
+                        <span class="fw-bold">Name: </span>{{ $requests->corporate_name }}
+                        —
+                        <span class="fw-bold">Owner: </span>{{ $requests->corporate_owner }}
+                    </h5>
                     <div class="card-body">
                         <h5 class="card-title"><span class="fw-bold">Address:</span> {{ $requests->corporate_address }}</h5>
-                        <p class="card-text"><span class="fw-bold">Budget: </span> {{ __('EGP ') . number_format($requests->corporate_budget, 2) }}</p>
+                        <p class="card-text">
+                            <span class="fw-bold">Mobile: </span>
+                            {{ $requests->corporate_mobile }}
+                        </p>
+                        <p class="card-text">
+                            <span class="fw-bold">Phone: </span>
+                            {{ $requests->corporate_phone }}
+                        </p>
+                        <p class="card-text">
+                            <span class="fw-bold">Email: </span>
+                            {{ $requests->corporate_email }}
+                        </p>
+                        <hr>
+                        <p class="card-text">
+                            <span class="fw-bold">Budget: </span>
+                            {{ __('EGP ') . number_format($requests->corporate_budget, 2) }}
+                        </p>
                         <p class="card-text">
                             <span class="fw-bold">Description:</span>
                             {{ $requests->client_extra }}
@@ -140,12 +176,20 @@
         var corporateName = document.getElementById('corporate_name').value;
         var corporateAddress = document.getElementById('corporate_address').value;
         var corporateBudget = document.getElementById('corporate_budget').value;
+        var corporateOwner = document.getElementById('corporate_owner').value;
+        var corporateMobile = document.getElementById('corporate_mobile').value;
+        var corporatePhone = document.getElementById('corporate_phone').value;
+        var corporateEmail = document.getElementById('corporate_email').value;
         var clientExtra = document.getElementById('client_extra').value;
 
         axios.post('/requests', {
                 corporate_name: corporateName,
                 corporate_address: corporateAddress,
                 corporate_budget: corporateBudget,
+                corporate_owner: corporateOwner,
+                corporate_mobile: corporateMobile,
+                corporate_phone: corporatePhone,
+                corporate_email: corporateEmail,
                 client_extra: clientExtra
             })
             .then(function(response) {
