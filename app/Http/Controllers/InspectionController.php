@@ -25,9 +25,9 @@ class InspectionController extends Controller
 
     public function index()
     {
-        // get all requests with the handler information via relationship
-        /*$requests_all = RequestsForm::with('user')->get();
-        return view('requests', compact('requests_all'));*/
-        return view('inspections');
+        // get all inspections with the linked request information via relationship
+        $inspections_all = Inspections::with('requests')->get();
+        return view('inspections', compact('inspections_all'));
+        //return view('inspections');
     }
 }

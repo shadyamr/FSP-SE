@@ -5,17 +5,18 @@
 <div class="container">
     <h1><span class="badge rounded-pill bg-dark">Inspections</span></h1>
     <div class="h-100 p-5 bg-light border rounded-3">
-        <button type="button" class="btn btn-success float-end mb-2" data-bs-toggle="modal" data-bs-target="#makeRequestModal">
+        <button type="button" class="btn btn-success float-end mb-2" data-bs-toggle="modal" data-bs-target="#makeRequestModal" disabled>
             Make Inspection
         </button>
         <br><br>
-
+        @if(count($inspections_all) > 0)
         <div class="table-responsive">
             <table class="table table-hover table-striped table-dark table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Request ID</th>
+                        <th scope="col">Corporate</th>
                         <th scope="col">Inspector</th>
                         <th scope="col">Created At</th>
                         <th scope="col">Updated At</th>
@@ -23,23 +24,38 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                    @foreach ($inspections_all as $inspection)
                     <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>Shady Amr</td>
-                        <td>2022-12-28 15:57:45</td>
-                        <td>2022-12-28 16:20:20</td>
+                        <td scope="row">{{ $inspection->id }}</td>
+                        <td><a href="{{ route('requests') }}">Request #{{ $inspection->request_id }}</a></td>
+                        <td>{{ $inspection->requests->corporate_name ?? 'Unknown' }}</td>
+                        <td>{{ $inspection->inspector->name ?? 'Unknown' }}</td>
+                        <td>{{ $inspection->created_at }}</td>
+                        <td>{{ $inspection->updated_at }}</td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#viewModal">View</button>
-                            <a href="" class="btn btn-sm btn-secondary mb-2">Edit</a>
-                            <a href="" class="btn btn-sm btn-danger mb-2">Delete</a>
+                            <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $inspection->id }}">View</button>
+                            <button href="" class="btn btn-sm btn-secondary mb-2" disabled>Edit</button>
+                            <button href="" class="btn btn-sm btn-danger mb-2" disabled>Delete</button>
                         </td>
                     </tr>
-
+                    @endforeach
                 </tbody>
             </table>
         </div>
+        @else
+        <table class="table table-hover table-striped table-dark table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Empty Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="row">There are no inspections available at the moment.</td>
+                </tr>
+            </tbody>
+        </table>
+        @endif
         @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
         @elseif (session('error'))
@@ -54,7 +70,7 @@
                 <h5 class="modal-title" id="makeRequestModalLabel">Make Request</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="{{ route('requests.store') }}">
+            <form method="POST" action=""> <!-- {{-- route('inspections.store') --}} -->
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -97,6 +113,49 @@
         </div>
     </div>
 </div>
+@if(count($inspections_all) > 0)
+@foreach ($inspections_all as $inspection)
+<div class="modal fade" id="viewModal-{{ $inspection->id }}" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewModalLabel">Inspection #{{ $inspection->id }} — Request #{{ $inspection->request_id }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <h5 class="card-header">
+                        Viewing Inspection of <span class="fw-bold">{{ $inspection->requests->corporate_name }}</span>
+                    </h5>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Description:</h5>
+                        <p class="card-text">
+                            {{ $inspection->inspection_information }}
+                        </p>
+                        <h5 class="card-title fw-bold">Image(s):</h5>
+                        <p class="card-text">
+                            <img src="{{ $inspection->inspection_image }}" width="300">
+                        </p>
+                        <hr>
+                        <p class="card-text">
+                            <span class="fw-bold">Sales Handler:</span>
+                            {{ $inspection->requests->user->name }}
+                        </p>
+                        <p class="card-text">
+                            <span class="fw-bold">Inspector:</span>
+                            {{ $inspection->inspector->name }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+@endif
 
 @endsection
 @section('scripts')
@@ -112,7 +171,7 @@
         var corporateEmail = document.getElementById('corporate_email').value;
         var clientExtra = document.getElementById('client_extra').value;
 
-        axios.post('/requests', {
+        axios.post('/inspections', {
                 corporate_name: corporateName,
                 corporate_address: corporateAddress,
                 corporate_budget: corporateBudget,
