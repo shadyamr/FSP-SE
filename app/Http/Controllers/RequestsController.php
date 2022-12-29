@@ -42,8 +42,11 @@ class RequestsController extends Controller
             'handler' => Auth::user()->id,
         ];
 
-        RequestsForm::create($data);
+        $requests = RequestsForm::create($data);
         
+        $log = new LogsController();
+        $log->store('make_inspection', $requests->id);
+
         return redirect()->back()->with('success', 'Request submitted successfully.');
     }
 
@@ -51,6 +54,9 @@ class RequestsController extends Controller
     {
         $requests = RequestsForm::findOrFail($id);
         $requests->delete();
+
+        $log = new LogsController();
+        $log->store('delete_inspection', $id);
 
         return redirect()->back()->with('success', 'Request deleted successfully.');
     }
@@ -79,6 +85,9 @@ class RequestsController extends Controller
         $requests->handler = $request->input('handler');
         
         $requests->save();
+
+        $log = new LogsController();
+        $log->store('edit_inspection', $id);
 
         return redirect()->back()->with('success', 'Request edited successfully.');
     }
