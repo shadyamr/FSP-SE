@@ -134,7 +134,7 @@
                         </p>
                         <h5 class="card-title fw-bold">Image(s):</h5>
                         <p class="card-text">
-                            <img src="{{ $inspection->inspection_image }}" width="300">
+                            <img src="{{ asset($inspection->inspection_image) }}" width="300">
                         </p>
                         <hr>
                         <p class="card-text">
@@ -149,10 +149,27 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#viewModalImg-{{ $inspection->id }}" data-bs-toggle="modal">View Full Image</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+<div class="modal fade" id="viewModalImg-{{ $inspection->id }}" aria-hidden="true" aria-labelledby="viewModalImg" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="viewModalImg">Inspection #{{ $inspection->id }} — Request #{{ $inspection->request_id }}: Image</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img src="{{ asset($inspection->inspection_image) }}" width="1000">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-bs-target="#viewModal-{{ $inspection->id }}" data-bs-toggle="modal">Back to Inspection</button>
+      </div>
+    </div>
+  </div>
 </div>
 @endforeach
 @endif

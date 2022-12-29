@@ -76,6 +76,7 @@
             @yield('content')
         </main>
     </div>
+    @include('layouts.footer')
     @yield('scripts')
 </body>
 
