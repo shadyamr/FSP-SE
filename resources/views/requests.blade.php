@@ -29,7 +29,7 @@
                         <td scope="row">{{ $requests->id }}</td>
                         <td>{{ $requests->corporate_name }}</td>
                         <td>{{ $requests->corporate_address }}</td>
-                        <td>{{ $requests->user->name ?? "Vacant" }}</td>
+                        <td>{{ $requests->user ? $requests->user->name : 'Vacant' }}</td>
                         <td>{{ $requests->created_at }}</td>
                         <td>{{ $requests->updated_at }}</td>
                         <td>
@@ -154,7 +154,7 @@
                         </p>
                         <p class="card-text">
                             <span class="fw-bold">Sales Handler:</span>
-                            {{ $requests->user->name }}
+                            {{ $requests->user ? $requests->user->name : 'Vacant' }}
                         </p>
                     </div>
                 </div>

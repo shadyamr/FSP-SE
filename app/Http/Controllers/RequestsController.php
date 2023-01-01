@@ -45,7 +45,7 @@ class RequestsController extends Controller
         $requests = RequestsForm::create($data);
         
         $log = new LogsController();
-        $log->store('make_inspection', $requests->id);
+        $log->store('make_request', $requests->id);
 
         return redirect()->back()->with('success', 'Request submitted successfully.');
     }
@@ -56,7 +56,7 @@ class RequestsController extends Controller
         $requests->delete();
 
         $log = new LogsController();
-        $log->store('delete_inspection', $id);
+        $log->store('delete_request', $id);
 
         return redirect()->back()->with('success', 'Request deleted successfully.');
     }
@@ -87,7 +87,7 @@ class RequestsController extends Controller
         $requests->save();
 
         $log = new LogsController();
-        $log->store('edit_inspection', $id);
+        $log->store('edit_request', $id);
 
         return redirect()->back()->with('success', 'Request edited successfully.');
     }

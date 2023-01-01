@@ -30,4 +30,15 @@ class InspectionController extends Controller
         return view('inspections', compact('inspections_all'));
         //return view('inspections');
     }
+
+    public function destroy($id)
+    {
+        $inspection = Inspections::findOrFail($id);
+        $inspection->delete();
+
+        $log = new LogsController();
+        $log->store('delete_inspection', $id);
+
+        return redirect()->back()->with('success', 'Inspection deleted successfully.');
+    }
 }

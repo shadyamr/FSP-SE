@@ -29,13 +29,15 @@
                         <td scope="row">{{ $inspection->id }}</td>
                         <td><a href="{{ route('requests') }}">Request #{{ $inspection->request_id }}</a></td>
                         <td>{{ $inspection->requests->corporate_name ?? 'Unknown' }}</td>
-                        <td>{{ $inspection->inspector->name ?? 'Unknown' }}</td>
+                        <td>
+                            {{ $inspection->inspector ? $inspection->inspector->name : 'Unknown' }}
+                        </td>
                         <td>{{ $inspection->created_at }}</td>
                         <td>{{ $inspection->updated_at }}</td>
                         <td>
                             <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $inspection->id }}">View</button>
                             <button href="" class="btn btn-sm btn-secondary mb-2" disabled>Edit</button>
-                            <button href="" class="btn btn-sm btn-danger mb-2" disabled>Delete</button>
+                            <a href="{{ route('inspections.delete', $inspection->id) }}" class="btn btn-sm btn-danger mb-2">Delete</a>
                         </td>
                     </tr>
                     @endforeach
@@ -143,7 +145,7 @@
                         </p>
                         <p class="card-text">
                             <span class="fw-bold">Inspector:</span>
-                            {{ $inspection->inspector->name }}
+                            {{ $inspection->inspector ? $inspection->inspector->name : 'Unknown' }}
                         </p>
                     </div>
                 </div>
