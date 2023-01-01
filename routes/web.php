@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileEditController;
 use App\Http\Controllers\RequestsController;
 use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\LogsController;
+use App\Http\Controllers\AccountingController;
+use App\Http\Controllers\EmployeesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,7 +52,26 @@ Route::middleware(['auth'])->group(function () {
             Route::get('delete', [InspectionController::class, 'destroy'])->name('inspections.delete');
         });
     });
+    /* Accounting */
+    Route::prefix('accounting')->group(function () {
+        Route::get('/', [AccountingController::class, 'index'])->name('accounting');
+        Route::prefix('salaries')->group(function () {
+            Route::get('/', [AccountingController::class, 'salaries'])->name('accounting.salaries');
+            Route::prefix('{id}')->group(function () {
+                Route::get('edit', [AccountingController::class, 'edit_salaries_preview'])->name('accounting.salaries.edit');
+                Route::post('edit/store', [AccountingController::class, 'edit_salary'])->name('accounting.salaries.store.edit');
+            });
+        });
+    });
+    /* Employee Management */
+    Route::prefix('employees')->group(function () {
+        Route::get('/', [EmployeesController::class, 'index'])->name('employees');
+        /*Route::prefix('{id}')->group(function () {
+            Route::get('edit', [AccountingController::class, 'edit_salaries_preview'])->name('accounting.salaries.edit');
+            Route::post('edit/store', [AccountingController::class, 'edit_salary'])->name('accounting.salaries.store.edit');
+        });*/
+    });
 });
 
-//Auth::routes(['register' => false]);
-Auth::routes();
+Auth::routes(['register' => false]);
+//Auth::routes();

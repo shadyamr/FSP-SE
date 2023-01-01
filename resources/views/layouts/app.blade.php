@@ -23,22 +23,26 @@
                             <a class="nav-link {{ (request()->is('home')) ? 'active' : '' }}" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (request()->is('requests')) ? 'active' : '' }}" href="{{ route('requests') }}">{{ __('Requests') }}</a>
+                            <a class="nav-link {{ (request()->is('requests*')) ? 'active' : '' }}" href="{{ route('requests') }}">{{ __('Requests') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ (request()->is('inspections')) ? 'active' : '' }}" href="{{ route('inspections') }}">{{ __('Inspections') }}</a>
+                            <a class="nav-link {{ (request()->is('inspections*')) ? 'active' : '' }}" href="{{ route('inspections') }}">{{ __('Inspections') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">{{ __('Stock') }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">{{ __('Invoice') }}</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ (request()->is('accounting*')) ? 'active' : '' }}" href="#" id="accountingDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Accounting
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="accountingDropDown">
+                                <li><a class="dropdown-item" href="#">{{ __('Invoice') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('accounting.salaries') }}">{{ __('Employee Salaries') }}</a></li>
+                                <li><a class="dropdown-item" href="#">{{ __('Generate Reports') }}</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">{{ __('Accounting') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">{{ __('Employee Management') }}</a>
+                            <a class="nav-link {{ (request()->is('employees*')) ? 'active' : '' }}" href="{{ route('employees') }}">{{ __('Employee Management') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">{{ __('Analytics') }}</a>
@@ -70,7 +74,7 @@
                                 {{ Auth::user()->name }}
                             </a>
 
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                     {{ __('Profile') }}
                                 </a>
