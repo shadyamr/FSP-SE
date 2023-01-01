@@ -38,10 +38,10 @@ Route::middleware(['auth'])->group(function () {
     /* Inspections */
     Route::prefix('inspections')->group(function () {
         Route::get('/', [InspectionController::class, 'index'])->name('inspections');
-        //Route::post('store', [InspectionController::class, 'store'])->name('inspections.store');
+        Route::post('store', [InspectionController::class, 'store'])->name('inspections.store');
         Route::prefix('{id}')->group(function () {
-            //Route::get('edit', [InspectionController::class, 'edit'])->name('inspections.edit');
-            //Route::post('edit/store', [InspectionController::class, 'store_edit'])->name('inspections.store.edit');
+            Route::get('edit', [InspectionController::class, 'edit'])->name('inspections.edit');
+            Route::post('edit/store', [InspectionController::class, 'store_edit'])->name('inspections.store.edit');
             Route::get('delete', [InspectionController::class, 'destroy'])->name('inspections.delete');
         });
     });

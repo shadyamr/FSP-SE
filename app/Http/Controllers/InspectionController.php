@@ -27,7 +27,8 @@ class InspectionController extends Controller
     {
         // get all inspections with the linked request information via relationship
         $inspections_all = Inspections::with('requests')->get();
-        return view('inspections', compact('inspections_all'));
+        $list_requests = RequestsForm::get();
+        return view('inspections', compact('inspections_all', 'list_requests'));
         //return view('inspections');
         /*$user = User::find(1);
         $roles = $user->roles()->get();
