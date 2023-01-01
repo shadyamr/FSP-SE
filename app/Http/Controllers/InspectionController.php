@@ -29,6 +29,9 @@ class InspectionController extends Controller
         $inspections_all = Inspections::with('requests')->get();
         return view('inspections', compact('inspections_all'));
         //return view('inspections');
+        /*$user = User::find(1);
+        $roles = $user->roles()->get();
+        return $roles;*/
     }
 
     public function destroy($id)
