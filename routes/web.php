@@ -48,3 +48,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Auth::routes(['register' => false], ['password.reset' => false]);
+//Auth::routes(['password.reset' => false]);

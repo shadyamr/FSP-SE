@@ -27,12 +27,41 @@ class InspectionController extends Controller
     {
         // get all inspections with the linked request information via relationship
         $inspections_all = Inspections::with('requests')->get();
-        $list_requests = RequestsForm::get();
+        $list_requests = RequestsForm::all();
         return view('inspections', compact('inspections_all', 'list_requests'));
-        //return view('inspections');
-        /*$user = User::find(1);
-        $roles = $user->roles()->get();
-        return $roles;*/
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'requests_id' => 'required',
+            'inspection_info' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if (!$request->hasFile('image'))
+        {
+            return redirect()->back()->with('error', 'No file was uploaded');
+        }
+
+        $image = $request->file('image');
+        if (!$image->isValid())
+        {
+            return redirect()->back()->with('error', 'The uploaded file is not valid');
+        }
+
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+        $image->move(public_path('img/inspections/'), $imageName);
+
+        $submit_inspection = new Inspections([
+            'request_id' => $request->get('requests_id'),
+            'inspection_information' => $request->get('inspection_info'),
+            'inspection_image' => 'img/inspections/' . $imageName,
+            'inspection_handler' => Auth::user()->id,
+        ]);
+        $submit_inspection->save();
+        return redirect()->back()->with('success', 'Inspection created successfully.');
     }
 
     public function destroy($id)
@@ -44,5 +73,13 @@ class InspectionController extends Controller
         $log->store('delete_inspection', $id);
 
         return redirect()->back()->with('success', 'Inspection deleted successfully.');
+    }
+
+    public function edit($id)
+    {
+        $edit_inspection = Inspections::find($id);
+        $users = User::all();
+        $list_requests = RequestsForm::all();
+        return view('edit-inspections', compact('edit_inspection', 'users', 'list_requests'));
     }
 }

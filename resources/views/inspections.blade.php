@@ -5,7 +5,7 @@
 <div class="container">
     <h1><span class="badge rounded-pill bg-dark">Inspections</span></h1>
     <div class="h-100 p-5 bg-light border rounded-3">
-        <button type="button" class="btn btn-success float-end mb-2" data-bs-toggle="modal" data-bs-target="#makeRequestModal" disabled>
+        <button type="button" class="btn btn-success float-end mb-2" data-bs-toggle="modal" data-bs-target="#makeInspectionModal">
             Make Inspection
         </button>
         <br><br>
@@ -36,7 +36,7 @@
                         <td>{{ $inspection->updated_at }}</td>
                         <td>
                             <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $inspection->id }}">View</button>
-                            <button href="" class="btn btn-sm btn-secondary mb-2" disabled>Edit</button>
+                            <a href="{{ route('inspections.edit', $inspection->id) }}" class="btn btn-sm btn-secondary mb-2">Edit</a>
                             <a href="{{ route('inspections.delete', $inspection->id) }}" class="btn btn-sm btn-danger mb-2">Delete</a>
                         </td>
                     </tr>
@@ -65,51 +65,35 @@
         @endif
     </div>
 </div>
-<div class="modal fade" id="makeRequestModal" tabindex="-1" aria-labelledby="makeRequestModalLabel" aria-hidden="true">
+<div class="modal fade" id="makeInspectionModal" tabindex="-1" aria-labelledby="makeInspectionModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="makeRequestModalLabel">Make Request</h5>
+                <h5 class="modal-title" id="makeInspectionModalLabel">Make Inspection</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action=""> <!-- {{-- route('inspections.store') --}} -->
+            <form method="POST" action="{{ route('inspections.store') }}" enctype="multipart/form-data"> <!--  -->
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="corporate_name">Corporate Name:</label>
-                        <input class="form-control" type="text" name="corporate_name" id="corporate_name" required autofocus>
+                        <label for="corporate_name">Corporate Name (Request):</label>
+                        <select class="form-select" name="requests_id" id="requests_id" required>
+                            @foreach($list_requests as $arequests)
+                                <option value="{{ $arequests->id }}">{{ $arequests->corporate_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="mb-3">
-                        <label for="corporate_address">Corporate Address:</label>
-                        <input class="form-control" type="text" name="corporate_address" id="corporate_address" required>
+                        <label for="inspection_info">Inspection Description:</label>
+                        <textarea class="form-control" name="inspection_info" id="inspection_info" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="corporate_budget">Corporate Budget:</label>
-                        <input class="form-control" type="number" name="corporate_budget" id="corporate_budget" min="1000" max="5000000" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="corporate_owner">Corporate Owner:</label>
-                        <input class="form-control" type="text" name="corporate_owner" id="corporate_owner" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="corporate_mobile">Corporate Mobile:</label>
-                        <input class="form-control" type="tel" name="corporate_mobile" id="corporate_mobile" placeholder="01002010222" pattern="[0-9]{11}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="corporate_phone">Corporate Phone:</label>
-                        <input class="form-control" type="tel" name="corporate_phone" id="corporate_phone" placeholder="0227715506" pattern="[0-9]{10}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="corporate_budget">Corporate Email:</label>
-                        <input class="form-control" type="email" name="corporate_email" id="corporate_email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="client_extra">Additional Information:</label>
-                        <textarea class="form-control" name="client_extra" id="client_extra" required></textarea>
+                        <label for="corporate_budget">Inspection Images:</label>
+                        <input class="form-control" type="file" name="image" id="image" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" onclick="addClient()" class="mb-2 btn btn-primary">Submit</button>
+                    <button type="submit" class="mb-2 btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
@@ -175,38 +159,5 @@
 </div>
 @endforeach
 @endif
-
-@endsection
-@section('scripts')
-
-<script>
-    function addClient() {
-        var corporateName = document.getElementById('corporate_name').value;
-        var corporateAddress = document.getElementById('corporate_address').value;
-        var corporateBudget = document.getElementById('corporate_budget').value;
-        var corporateOwner = document.getElementById('corporate_owner').value;
-        var corporateMobile = document.getElementById('corporate_mobile').value;
-        var corporatePhone = document.getElementById('corporate_phone').value;
-        var corporateEmail = document.getElementById('corporate_email').value;
-        var clientExtra = document.getElementById('client_extra').value;
-
-        axios.post('/inspections', {
-                corporate_name: corporateName,
-                corporate_address: corporateAddress,
-                corporate_budget: corporateBudget,
-                corporate_owner: corporateOwner,
-                corporate_mobile: corporateMobile,
-                corporate_phone: corporatePhone,
-                corporate_email: corporateEmail,
-                client_extra: clientExtra
-            })
-            .then(function(response) {
-                console.log(response);
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
-    }
-</script>
 
 @endsection
