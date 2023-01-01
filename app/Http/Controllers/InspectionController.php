@@ -61,6 +61,10 @@ class InspectionController extends Controller
             'inspection_handler' => Auth::user()->id,
         ]);
         $submit_inspection->save();
+
+        $log = new LogsController();
+        $log->store('make_inspection', $submit_inspection->id);
+
         return redirect()->back()->with('success', 'Inspection created successfully.');
     }
 

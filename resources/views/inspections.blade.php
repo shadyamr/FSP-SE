@@ -93,7 +93,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    @if(count($list_requests) > 0)
                     <button type="submit" class="mb-2 btn btn-primary">Submit</button>
+                    @else
+                    <button type="button" class="mb-2 btn btn-primary" disabled>Submit</button>
+                    @endif
                 </div>
             </form>
         </div>

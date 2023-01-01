@@ -28,6 +28,24 @@
                         <li class="nav-item">
                             <a class="nav-link {{ (request()->is('inspections')) ? 'active' : '' }}" href="{{ route('inspections') }}">{{ __('Inspections') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ __('Stock') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ __('Invoice') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ __('Accounting') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ __('Employee Management') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ __('Analytics') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (request()->is('logs')) ? 'active' : '' }}" href="{{ route('logs') }}">{{ __('Logging') }}</a>
+                        </li>
                         @endguest
                     </ul>
 
@@ -53,7 +71,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                     {{ __('Profile') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

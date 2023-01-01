@@ -14,6 +14,12 @@ use Auth;
 
 class LogsController extends Controller
 {
+    public function index()
+    {
+        $logs_all = logs::all();
+        return view('logs', compact('logs_all'));
+    }
+
     public function store($log_type, $data_id)
     {
         $log = new Logs();

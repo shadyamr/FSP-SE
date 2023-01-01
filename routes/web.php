@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileEditController;
 use App\Http\Controllers\RequestsController;
 use App\Http\Controllers\InspectionController;
+use App\Http\Controllers\LogsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,10 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/profile', [ProfileEditController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileEditController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileEditController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/logs', [LogsController::class, 'index'])->name('logs');
     //Route::group(['middleware' => ['auth', 'role:sales']], function() {
         /* Requests */
         Route::prefix('requests')->group(function () {
@@ -47,5 +52,5 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-Auth::routes(['register' => false], ['password.reset' => false]);
-//Auth::routes(['password.reset' => false]);
+//Auth::routes(['register' => false]);
+Auth::routes();

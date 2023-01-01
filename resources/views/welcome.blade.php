@@ -19,6 +19,8 @@
     html,
     body {
         height: 100%;
+        background: url(img/bg.png) no-repeat center center fixed;
+        max-width: 100%;
     }
 
     body {
@@ -109,13 +111,10 @@
             </div>
         </header>
 
-        <main role="main" class="px-3">
-            <h1 class="fw-bold">Welcome!</h1>
-            <p class="lead">This will be a static welcome page in the prototype build.</p>
-            <p class="lead">Application is in development and it is set to be complete soon!</p>
-            <p class="lead">
-                <a href="https://github.com/shadyamr/FSP-SE" class="btn btn-lg btn-secondary fw-bold border-white bg-white">GitHub</a>
-            </p>
+        <main role="main">
+            <h1 class="fw-bold">Easy way to manage productivity!</h1>
+            <p class="lead">Welcome to {{ config('app.name', 'Laravel') }}'s internal enterprise resource planning.</p>
+            <p class="lead px-3">Drive performance and your cross-functional collaboration with easy-to-use dashboards, automations, and automated insights in one click.</p>
         </main>
 
         <footer role="contentinfo" class="mastfoot mt-auto">
