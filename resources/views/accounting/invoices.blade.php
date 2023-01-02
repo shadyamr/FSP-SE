@@ -29,7 +29,11 @@
                             @endforeach
                         </td>
                         <td>{{ $requests->user ? $requests->user->name : 'Vacant' }}</td>
-                        <td>{{ $requests->corporate_name }}</td>
+                        <td>
+                            @foreach ($requests->inspections as $inspection)
+                                <ul><li>{{ $inspection->inspector->name ?? "Vacant" }}</li></ul>
+                            @endforeach
+                        </td>
                         <td>
                             <a href="{{ route('accounting.invoice.pdf') }}" class="btn btn-sm btn-secondary mb-2">View</a>
                         </td>

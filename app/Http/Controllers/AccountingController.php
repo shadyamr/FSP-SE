@@ -70,6 +70,12 @@ class AccountingController extends Controller
 
     public function invoice_pdf()
     {
+        $request = RequestsForm::with('inspections')
+                    ->where('id', 1)
+                    ->whereHas('inspections', function ($query) {
+                        $query->where('inspection_information', '<>', null);
+                    })
+                    ->first();
         $client = new Party([
             'name'          => 'FSPMS Company Co.',
             'phone'         => '01009019222',
@@ -80,11 +86,14 @@ class AccountingController extends Controller
         ]);
 
         $customer = new Party([
-            'name'          => 'Ashley Medina',
-            'address'       => 'The Green Street 12',
-            'code'          => '#22663214',
+            'name'          => $request->corporate_name,
+            'address'       => $request->corporate_address,
             'custom_fields' => [
-                'order number' => '> 654321 <',
+                'Owner' => $request->corporate_owner,
+                'Mobile' => $request->corporate_mobile,
+                'Phone' => $request->corporate_phone,
+                'Email' => $request->corporate_email,
+                'Budget' => 'EGP ' . number_format($request->corporate_budget, 2),
             ],
         ]);
 
@@ -105,11 +114,11 @@ class AccountingController extends Controller
         $notes = implode("<br>", $notes);
 
         $invoice = Invoice::make('Invoice')
-            ->series('BIG')
+            ->series('REQUEST')
             // ability to include translated invoice status
             // in case it was paid
-            ->sequence(667)
-            ->serialNumberFormat('{SEQUENCE}/{SERIES}')
+            ->sequence($request->id)
+            ->serialNumberFormat('{SERIES}/{SEQUENCE}')
             ->seller($client)
             ->buyer($customer)
             ->date(now())
