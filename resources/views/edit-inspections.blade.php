@@ -6,7 +6,7 @@
     <div class="h-100 p-5 bg-light border rounded-3">
         <h2 class="fw-bold">Edit Inspection — (ID: {{ $edit_inspection->id }})</h2>
         <div class="d-inline">
-            <p>Editing the inspection of {{ $edit_inspection->requests->corporate_name }} — Request #{{ $edit_inspection->requests->id }}</p>
+            <p>Editing the inspection of {{ $edit_inspection->requests ? $edit_inspection->requests->corporate_name : 'Vacant' }} — Request #{{ $edit_inspection->requests ? $edit_inspection->requests->id : '0'}}</p>
         </div>
 
         <form method="POST" action="{{ route('inspections.store.edit', $edit_inspection->id) }}" enctype="multipart/form-data">
