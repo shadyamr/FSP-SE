@@ -5,7 +5,7 @@
 <div class="container">
     <h1><span class="badge rounded-pill bg-dark">Invoices</span></h1>
     <div class="h-100 p-5 bg-light border rounded-3">
-        @if(count($employees_all) > 0)
+        @if(count($all_requests) > 0)
         <div class="table-responsive">
             <table class="table table-hover table-striped table-dark table-bordered">
                 <thead>
@@ -19,11 +19,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($employees_all as $employee)
+                    @foreach ($all_requests as $requests)
                     <tr>
-                        <td scope="row">{{ $employee->id }}</td>
-                        <td>{{ $employee->name }}</td>
-                        <td>{{ $employee->data_id }}</td>
+                        <td scope="row">{{ $requests->id }}</td>
+                        <td>{{ $requests->corporate_name }}</td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td>
@@ -43,7 +43,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td scope="row">There are no employees available at the moment.</td>
+                    <td scope="row">There are no requestss available at the moment.</td>
                 </tr>
             </tbody>
         </table>

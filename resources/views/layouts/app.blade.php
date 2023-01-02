@@ -22,34 +22,45 @@
                         <li class="nav-item">
                             <a class="nav-link {{ (request()->is('home')) ? 'active' : '' }}" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
+
+                        @if (Auth::user()->hasRole('sales') || Auth::user()->hasRole('admin'))
                         <li class="nav-item">
                             <a class="nav-link {{ (request()->is('requests*')) ? 'active' : '' }}" href="{{ route('requests') }}">{{ __('Requests') }}</a>
                         </li>
+                        @endif
+                        @if (Auth::user()->hasRole('inspector') || Auth::user()->hasRole('admin'))
                         <li class="nav-item">
                             <a class="nav-link {{ (request()->is('inspections*')) ? 'active' : '' }}" href="{{ route('inspections') }}">{{ __('Inspections') }}</a>
                         </li>
+                        @endif
+                        @if (Auth::user()->hasRole('stock') || Auth::user()->hasRole('admin'))
                         <li class="nav-item">
                             <a class="nav-link" href="#">{{ __('Stock') }}</a>
                         </li>
+                        @endif
+                        @if (Auth::user()->hasRole('accountant') || Auth::user()->hasRole('admin'))
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {{ (request()->is('accounting*')) ? 'active' : '' }}" href="#" id="accountingDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Accounting
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="accountingDropDown">
                                 <li><a class="dropdown-item" href="{{ route('accounting.invoice') }}">{{ __('Invoice') }}</a></li>
-                                <li><a class="dropdown-item" href="{{ route('accounting.salaries') }}">{{ __('Employee Salaries') }}</a></li>
-                                <li><a class="dropdown-item" href="#">{{ __('Generate Reports') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('accounting.salaries') }}">{{ __('Salaries') }}</a></li>
+                                <!--<li><a class="dropdown-item" href="#">{{ __('Generate Reports') }}</a></li>-->
                             </ul>
                         </li>
+                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{ __('Analytics') }}</a>
+                        </li>    
+                        @if (Auth::user()->hasRole('admin'))
                         <li class="nav-item">
                             <a class="nav-link {{ (request()->is('employees*')) ? 'active' : '' }}" href="{{ route('employees') }}">{{ __('Employee Management') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">{{ __('Analytics') }}</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link {{ (request()->is('logs')) ? 'active' : '' }}" href="{{ route('logs') }}">{{ __('Logging') }}</a>
                         </li>
+                        @endif
                         @endguest
                     </ul>
 

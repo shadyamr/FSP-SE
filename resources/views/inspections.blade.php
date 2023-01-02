@@ -61,7 +61,7 @@
         @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
         @elseif (session('error'))
-        <div class="alert alert-success">{{ session('error') }}</div>
+        <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
     </div>
 </div>
@@ -76,7 +76,7 @@
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="corporate_name">Corporate Name (Request):</label>
+                        <label for="requests_id">Corporate Name (Request):</label>
                         <select class="form-select" name="requests_id" id="requests_id" required>
                             @foreach($list_requests as $arequests)
                                 <option value="{{ $arequests->id }}">{{ $arequests->corporate_name }}</option>

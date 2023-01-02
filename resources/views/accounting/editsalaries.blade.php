@@ -31,7 +31,7 @@
         @if (session('success'))
         <div class="mt-2 alert alert-success">{{ session('success') }}</div>
         @elseif (session('error'))
-        <div class="mt-2 alert alert-success">{{ session('error') }}</div>
+        <div class="mt-2 alert alert-danger">{{ session('error') }}</div>
         @endif
     </div>
 </div>

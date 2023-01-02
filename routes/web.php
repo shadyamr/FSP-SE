@@ -51,10 +51,12 @@ Route::middleware(['auth'])->group(function () {
         /* Employee Management */
         Route::prefix('employees')->group(function () {
             Route::get('/', [EmployeesController::class, 'index'])->name('employees');
-            /*Route::prefix('{id}')->group(function () {
-                Route::get('edit', [AccountingController::class, 'edit_salaries_preview'])->name('accounting.salaries.edit');
-                Route::post('edit/store', [AccountingController::class, 'edit_salary'])->name('accounting.salaries.store.edit');
-            });*/
+            Route::post('store', [EmployeesController::class, 'store'])->name('employees.store');
+            Route::prefix('{id}')->group(function () {
+                Route::get('edit', [EmployeesController::class, 'edit_employee_preview'])->name('employees.edit');
+                //Route::post('edit/store', [AccountingController::class, 'edit_salary'])->name('accounting.salaries.store.edit');
+                Route::get('delete', [EmployeesController::class, 'destroy'])->name('employees.delete');
+            });
         });
     });
 

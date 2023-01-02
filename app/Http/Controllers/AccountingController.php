@@ -10,6 +10,8 @@ use LaravelDaily\Invoices\Classes\Party;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 use App\Models\User;
+use App\Models\RequestsForm;
+use App\Models\RequestsInspections;
 
 class AccountingController extends Controller
 {
@@ -25,7 +27,7 @@ class AccountingController extends Controller
 
     public function salaries()
     {
-        $employees_all = User::all();
+        $employees_all = User::with('roles')->get();
         return view('accounting.salaries', compact('employees_all'));
     }
 
@@ -57,8 +59,9 @@ class AccountingController extends Controller
 
     public function invoice()
     {
-        $employees_all = User::all();
-        return view('accounting.invoices', compact('employees_all'));
+        $all_requests = RequestsForm::all();
+        //return $employees_all;
+        return view('accounting.invoices', compact('all_requests'));
     }
 
     public function invoice_pdf()

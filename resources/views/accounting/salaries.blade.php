@@ -22,7 +22,11 @@
                     <tr>
                         <td scope="row">{{ $employee->id }}</td>
                         <td>{{ $employee->name }}</td>
-                        <td>{{ $employee->data_id }}</td>
+                        <td>
+                            @foreach ($employee->roles as $roles)
+                                {{ $roles->role->description}}
+                            @endforeach
+                        </td>
                         <td>
                             {{ __('EGP ') . number_format($employee->salary, 2) }}
                         </td>
