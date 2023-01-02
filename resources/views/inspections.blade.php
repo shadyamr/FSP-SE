@@ -115,7 +115,7 @@
             <div class="modal-body">
                 <div class="card">
                     <h5 class="card-header">
-                        Viewing Inspection of <span class="fw-bold">{{ $inspection->requests->corporate_name }}</span>
+                        Viewing Inspection of <span class="fw-bold">{{ $inspection->requests ? $inspection->requests->corporate_name : 'Vacant'}}</span>
                     </h5>
                     <div class="card-body">
                         <h5 class="card-title fw-bold">Description:</h5>
@@ -129,7 +129,7 @@
                         <hr>
                         <p class="card-text">
                             <span class="fw-bold">Sales Handler:</span>
-                            {{ $inspection->requests->user->name }}
+                            {{ $inspection->requests ? $inspection->requests->user->name : 'Vacant' }}
                         </p>
                         <p class="card-text">
                             <span class="fw-bold">Inspector:</span>

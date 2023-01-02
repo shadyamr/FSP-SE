@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\Inspections;
 use App\Models\RequestsForm;
 
 use App\Models\User;
@@ -54,6 +54,8 @@ class RequestsController extends Controller
     {
         $requests = RequestsForm::findOrFail($id);
         $requests->delete();
+
+        Inspections::where('request_id', $id)->delete();
 
         $log = new LogsController();
         $log->store('delete_request', $id);
