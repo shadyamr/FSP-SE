@@ -19,7 +19,6 @@ class CreateBorrowersTable extends Migration
             $table->string('staff_id');
             $table->integer('status');
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('department_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });

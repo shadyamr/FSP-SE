@@ -57,10 +57,7 @@
                                 <!--<li><a class="dropdown-item" href="#">{{ __('Generate Reports') }}</a></li>-->
                             </ul>
                         </li>
-                        @endif
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">{{ __('Analytics') }}</a>
-                        </li>    
+                        @endif   
                         @if (Auth::user()->hasRole('admin'))
                         <li class="nav-item">
                             <a class="nav-link {{ (request()->is('employees*')) ? 'active' : '' }}" href="{{ route('employees') }}">{{ __('Employee Management') }}</a>
