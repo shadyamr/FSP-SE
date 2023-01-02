@@ -68,10 +68,10 @@ class AccountingController extends Controller
         return view('accounting.invoices', compact('all_requests', 'all_inspections'));
     }
 
-    public function invoice_pdf()
+    public function invoice_pdf($id)
     {
         $request = RequestsForm::with('inspections')
-                    ->where('id', 1)
+                    ->where('id', $id)
                     ->whereHas('inspections', function ($query) {
                         $query->where('inspection_information', '<>', null);
                     })

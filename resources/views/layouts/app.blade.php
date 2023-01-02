@@ -34,8 +34,16 @@
                         </li>
                         @endif
                         @if (Auth::user()->hasRole('stock') || Auth::user()->hasRole('admin'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">{{ __('Stock') }}</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="stockDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Stock Management
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="stockDropDown">
+                                <li><a class="dropdown-item" href="{{ route('category') }}">{{ __('Categories') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('item') }}">{{ __('Stock Items') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('supplier') }}">{{ __('Suppliers') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('borrower') }}">{{ __('Borrowers') }}</a></li>
+                            </ul>
                         </li>
                         @endif
                         @if (Auth::user()->hasRole('accountant') || Auth::user()->hasRole('admin'))

@@ -35,7 +35,7 @@
                             @endforeach
                         </td>
                         <td>
-                            <a href="{{ route('accounting.invoice.pdf') }}" class="btn btn-sm btn-secondary mb-2">View</a>
+                            <a href="{{ route('accounting.invoice.pdf', $requests->id) }}" class="btn btn-sm btn-secondary mb-2">View</a>
                         </td>
                     </tr>
                     @endforeach

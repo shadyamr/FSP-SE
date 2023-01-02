@@ -7,6 +7,10 @@ use App\Http\Controllers\InspectionController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\BorrowerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,17 +78,72 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    /* ACCOUNTANT ACCESS */
     Route::group(['middleware' => ['accountant']], function() {
         /* Accounting */
         Route::prefix('accounting')->group(function () {
             Route::get('/', [AccountingController::class, 'index'])->name('accounting');
-            Route::get('invoice', [AccountingController::class, 'invoice'])->name('accounting.invoice');
-            Route::get('invoice/pdf', [AccountingController::class, 'invoice_pdf'])->name('accounting.invoice.pdf');
+            Route::prefix('invoice')->group(function () {
+                Route::get('/', [AccountingController::class, 'invoice'])->name('accounting.invoice');
+                Route::prefix('{id}')->group(function () {
+                    Route::get('pdf', [AccountingController::class, 'invoice_pdf'])->name('accounting.invoice.pdf');
+                });
+            });
             Route::prefix('salaries')->group(function () {
                 Route::get('/', [AccountingController::class, 'salaries'])->name('accounting.salaries');
                 Route::prefix('{id}')->group(function () {
                     Route::get('edit', [AccountingController::class, 'edit_salaries_preview'])->name('accounting.salaries.edit');
                     Route::post('edit/store', [AccountingController::class, 'edit_salary'])->name('accounting.salaries.store.edit');
+                });
+            });
+        });
+    });
+
+    /* STOCK HANDLER ACCESS */
+    Route::group(['middleware' => ['stock']], function() {
+        Route::prefix('stock')->group(function () {
+            /* Categories */
+            Route::prefix('category')->group(function () {
+                Route::get('/', [CategoryController::class, 'index'])->name('category');
+                Route::get('/add', [CategoryController::class, 'showAdd'])->name('category.showAdd');
+                Route::post('/add', [CategoryController::class, 'store'])->name('category.store');
+                Route::prefix('{id}')->group(function () {
+                    Route::get('delete', [CategoryController::class, 'destroy'])->name('category.destroy');
+                    Route::get('edit', [CategoryController::class, 'showEdit'])->name('category.showEdit');
+                    Route::post('edit', [CategoryController::class, 'update'])->name('category.update');
+                    });
+            });
+            /* Items */
+            Route::prefix('item')->group(function () {
+                Route::get('/', [ItemController::class, 'index'])->name('item');
+                Route::get('/add', [ItemController::class, 'showAdd'])->name('item.showAdd');
+                Route::post('/add', [ItemController::class, 'store'])->name('item.store');
+                Route::prefix('{id}')->group(function () {
+                    Route::get('delete', [ItemController::class, 'destroy'])->name('item.destroy');
+                    Route::get('edit', [ItemController::class, 'showEdit'])->name('item.showEdit');
+                    Route::post('edit', [ItemController::class, 'update'])->name('item.update');
+                    });
+            });
+            /* Supplier */
+            Route::prefix('supplier')->group(function () {
+                Route::get('/', [SupplierController::class, 'index'])->name('supplier');
+                Route::get('/add', [SupplierController::class, 'showAdd'])->name('supplier.showAdd');
+                Route::post('/add', [SupplierController::class, 'store'])->name('supplier.store');
+                Route::prefix('{id}')->group(function () {
+                    Route::get('delete', [SupplierController::class, 'destroy'])->name('supplier.destroy');
+                    Route::get('edit', [SupplierController::class, 'showEdit'])->name('supplier.showEdit');
+                    Route::post('edit', [SupplierController::class, 'update'])->name('supplier.update');
+                    });
+            });
+            /* Borrowers */
+            Route::prefix('borrower')->group(function () {
+                Route::get('/', [BorrowerController::class, 'index'])->name('borrower');
+                Route::get('/add', [BorrowerController::class, 'showAdd'])->name('borrower.showAdd');
+                Route::post('/add', [BorrowerController::class, 'store'])->name('borrower.store');
+                Route::prefix('{id}')->group(function () {
+                    Route::get('delete', [BorrowerController::class, 'destroy'])->name('borrower.destroy');
+                    Route::get('edit', [BorrowerController::class, 'showEdit'])->name('borrower.showEdit');
+                    Route::post('edit', [BorrowerController::class, 'update'])->name('borrower.update');
                 });
             });
         });
