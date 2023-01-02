@@ -12,9 +12,9 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Brand Name</th>
-                    <th scope="col">Person in charge</th>
+                    <th scope="col">Person in Charge</th>
                     <th scope="col">Contact</th>
-                    <th></th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
