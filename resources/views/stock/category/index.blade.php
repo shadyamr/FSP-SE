@@ -21,8 +21,8 @@
                     <th scope="row">{{ $category->id }}</th>
                     <td>{{ $category->name }}</td>
                     <td>
-                        <a href="{{ route('category.showEdit', ['id'=> $category->id]) }}" class="btn btn-secondary">Edit</a>
-                        <a href="{{ route('category.destroy', ['id'=>$category->id]) }}" class="btn btn-danger">Delete</a>
+                        <a href="{{ route('category.showEdit', ['id'=> $category->id]) }}" class="btn btn-sm btn-secondary">Edit</a>
+                        <a href="{{ route('category.destroy', ['id'=>$category->id]) }}" class="btn btn-sm btn-danger">Delete</a>
                     </td>
                 </tr>
                 @endforeach

@@ -25,8 +25,8 @@
                     <td>{{ $supplier->incharge_name }}</td>
                     <td>{{ $supplier->contact_number }}</td>
                     <td>
-                        <a href="{{ route('supplier.showEdit', ['id'=>$supplier->id]) }}" class="btn btn-secondary">Edit</a>
-                        <a href="{{ route('supplier.destroy', ['id'=>$supplier->id]) }}" class="btn btn-danger">Delete</a>
+                        <a href="{{ route('supplier.showEdit', ['id'=>$supplier->id]) }}" class="btn btn-sm btn-secondary">Edit</a>
+                        <a href="{{ route('supplier.destroy', ['id'=>$supplier->id]) }}" class="btn btn-sm btn-danger">Delete</a>
                     </td>
                 </tr>
                 @endforeach
