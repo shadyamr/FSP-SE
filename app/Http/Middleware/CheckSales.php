@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-class CheckRole
+class CheckSales
 {
     /**
      * Handle an incoming request.
@@ -16,13 +16,11 @@ class CheckRole
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
-            $user = User::whereHas('roles', function ($query) use ($role) {
-                $query->where('name', $role);
-            })->find(Auth::id());
-            if ($user) {
+            $user = User::with('roles')->find(Auth::user()->id);
+            if ($user->hasRole('admin') || $user->hasRole('sales')) {
                 return $next($request);
             }
             return redirect('/home')->with('access', 'Unauthorized Access!');

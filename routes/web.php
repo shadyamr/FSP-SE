@@ -29,8 +29,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileEditController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileEditController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileEditController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/logs', [LogsController::class, 'index'])->name('logs');
-    //Route::group(['middleware' => ['auth', 'role:sales']], function() {
+
+    /* SALES ACCESS */
+    Route::group(['middleware' => ['sales']], function() {
         /* Requests */
         Route::prefix('requests')->group(function () {
             Route::get('/', [RequestsController::class, 'index'])->name('requests');
@@ -41,35 +42,50 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('delete', [RequestsController::class, 'destroy'])->name('requests.delete');
             });
         });
-    //});
-    /* Inspections */
-    Route::prefix('inspections')->group(function () {
-        Route::get('/', [InspectionController::class, 'index'])->name('inspections');
-        Route::post('store', [InspectionController::class, 'store'])->name('inspections.store');
-        Route::prefix('{id}')->group(function () {
-            Route::get('edit', [InspectionController::class, 'edit'])->name('inspections.edit');
-            Route::post('edit/store', [InspectionController::class, 'store_edit'])->name('inspections.store.edit');
-            Route::get('delete', [InspectionController::class, 'destroy'])->name('inspections.delete');
-        });
     });
-    /* Accounting */
-    Route::prefix('accounting')->group(function () {
-        Route::get('/', [AccountingController::class, 'index'])->name('accounting');
-        Route::prefix('salaries')->group(function () {
-            Route::get('/', [AccountingController::class, 'salaries'])->name('accounting.salaries');
-            Route::prefix('{id}')->group(function () {
+
+    /* ADMIN ACCESS */
+    Route::group(['middleware' => ['admin']], function() {
+        /* Logging System */
+        Route::get('/logs', [LogsController::class, 'index'])->name('logs');
+        /* Employee Management */
+        Route::prefix('employees')->group(function () {
+            Route::get('/', [EmployeesController::class, 'index'])->name('employees');
+            /*Route::prefix('{id}')->group(function () {
                 Route::get('edit', [AccountingController::class, 'edit_salaries_preview'])->name('accounting.salaries.edit');
                 Route::post('edit/store', [AccountingController::class, 'edit_salary'])->name('accounting.salaries.store.edit');
+            });*/
+        });
+    });
+
+    /* INSPECTOR ACCESS */
+    Route::group(['middleware' => ['inspector']], function() {
+        /* Inspections */
+        Route::prefix('inspections')->group(function () {
+            Route::get('/', [InspectionController::class, 'index'])->name('inspections');
+            Route::post('store', [InspectionController::class, 'store'])->name('inspections.store');
+            Route::prefix('{id}')->group(function () {
+                Route::get('edit', [InspectionController::class, 'edit'])->name('inspections.edit');
+                Route::post('edit/store', [InspectionController::class, 'store_edit'])->name('inspections.store.edit');
+                Route::get('delete', [InspectionController::class, 'destroy'])->name('inspections.delete');
             });
         });
     });
-    /* Employee Management */
-    Route::prefix('employees')->group(function () {
-        Route::get('/', [EmployeesController::class, 'index'])->name('employees');
-        /*Route::prefix('{id}')->group(function () {
-            Route::get('edit', [AccountingController::class, 'edit_salaries_preview'])->name('accounting.salaries.edit');
-            Route::post('edit/store', [AccountingController::class, 'edit_salary'])->name('accounting.salaries.store.edit');
-        });*/
+
+    Route::group(['middleware' => ['accountant']], function() {
+        /* Accounting */
+        Route::prefix('accounting')->group(function () {
+            Route::get('/', [AccountingController::class, 'index'])->name('accounting');
+            Route::get('invoice', [AccountingController::class, 'invoice'])->name('accounting.invoice');
+            Route::get('invoice/pdf', [AccountingController::class, 'invoice_pdf'])->name('accounting.invoice.pdf');
+            Route::prefix('salaries')->group(function () {
+                Route::get('/', [AccountingController::class, 'salaries'])->name('accounting.salaries');
+                Route::prefix('{id}')->group(function () {
+                    Route::get('edit', [AccountingController::class, 'edit_salaries_preview'])->name('accounting.salaries.edit');
+                    Route::post('edit/store', [AccountingController::class, 'edit_salary'])->name('accounting.salaries.store.edit');
+                });
+            });
+        });
     });
 });
 
