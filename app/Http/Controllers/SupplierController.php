@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Auth;
 
 class SupplierController extends Controller
 {
@@ -32,6 +33,9 @@ class SupplierController extends Controller
             'contact_number' => $request->contact_number
         ]);
 
+        $log = new LogsController();
+        $log->store('create_supplier', Auth::user()->id);
+
         return redirect()->route('supplier')->with(['message' => 'Supplier added', 'alert' => 'alert-success']);
     }
 
@@ -40,6 +44,9 @@ class SupplierController extends Controller
         $supplier = Supplier::find($id);
 
         $supplier->delete();
+
+        $log = new LogsController();
+        $log->store('delete_supplier', Auth::user()->id);
 
         return redirect()->route('supplier')->with(['message' => 'Supplier deleted', 'alert' => 'alert-danger']);
     }
@@ -66,6 +73,9 @@ class SupplierController extends Controller
         $supplier->contact_number = $request->contact_number;
 
         $supplier->save();
+
+        $log = new LogsController();
+        $log->store('edit_supplier', Auth::user()->id);
 
         return redirect()->route('supplier')->with(['message' => 'Supplier updated', 'alert' => 'alert-success']);
     }

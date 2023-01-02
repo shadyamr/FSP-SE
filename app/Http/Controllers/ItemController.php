@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Auth;
 
 class ItemController extends Controller
 {
@@ -40,6 +41,9 @@ class ItemController extends Controller
             'supplier_id' => $request->supplier_id
         ]);
 
+        $log = new LogsController();
+        $log->store('make_item', Auth::user()->id);
+
         return redirect()->route('item')->with(['message' => 'Item added', 'alert' => 'alert-success']);
     }
 
@@ -47,6 +51,9 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
         $item->delete();
+
+        $log = new LogsController();
+        $log->store('delete_item', Auth::user()->id);
 
         return redirect()->route('item')->with(['message' => 'Item deleted', 'alert' => 'alert-success']);
     }
@@ -78,6 +85,9 @@ class ItemController extends Controller
         $item->category_id = $request->category_id;
         $item->supplier_id = $request->supplier_id;
         $item->save();
+
+        $log = new LogsController();
+        $log->store('edit_item', Auth::user()->id);
 
         return redirect()->route('item')->with(['message' => 'Item updated', 'alert' => 'alert-warning']);
     }

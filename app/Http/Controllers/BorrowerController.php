@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Borrower;
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Auth;
 
 class BorrowerController extends Controller
 {
@@ -39,13 +40,17 @@ class BorrowerController extends Controller
             'status' => 1,
         ]);
 
+        $log = new LogsController();
+        $log->store('create_borrower', Auth::user()->id);
+
         return redirect()->route('borrower')->with(['message' => 'Borrower added', 'alert' => 'alert-success']);
     }
 
     public function destroy($id)
     {
         $borrower = Borrower::find($id)->delete();
-
+        $log = new LogsController();
+        $log->store('delete_borrower', Auth::user()->id);
         return redirect()->route('borrower')->with(['message' => 'Borrower deleted', 'alert' => 'alert-danger']);
     }
 
@@ -86,6 +91,9 @@ class BorrowerController extends Controller
         $borrower->status = $request->status;
 
         $borrower->save();
+
+        $log = new LogsController();
+        $log->store('edit_borrower', Auth::user()->id);
 
         return redirect()->route('borrower')->with(['message' => 'Borrower updated', 'alert' => 'alert-success']);
     }

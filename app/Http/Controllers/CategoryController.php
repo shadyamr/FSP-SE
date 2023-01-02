@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Auth;
 
 class CategoryController extends Controller
 {
@@ -28,12 +29,18 @@ class CategoryController extends Controller
             'name' => $request->name
         ]);
 
+        $log = new LogsController();
+        $log->store('new_category', Auth::user()->id);
+
         return redirect()->route('category')->with(['message' => 'Category added', 'alert' => 'alert-success']);
     }
 
     public function destroy($id)
     {
         $category = Category::find($id)->delete();
+
+        $log = new LogsController();
+        $log->store('delete_category', Auth::user()->id);
 
         return redirect()->route('category')->with(['message' => 'Category deleted', 'alert' => 'alert-danger']);
     }
@@ -56,6 +63,9 @@ class CategoryController extends Controller
         $category->name = $request->name;
 
         $category->save();
+
+        $log = new LogsController();
+        $log->store('edit_category', Auth::user()->id);
 
         return redirect()->route('category')->with(['message' => 'Category updated', 'alert' => 'alert-success']);
     }
