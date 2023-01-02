@@ -86,4 +86,44 @@ class EmployeesController extends Controller
 
         return redirect()->back()->with('success', 'Employee deleted successfully.');
     }
+
+    public function edit_employee_preview($id)
+    {
+        $employee = User::find($id);
+        $list_roles = Role::all();
+        return view('employees.edit', compact('employee', 'list_roles'));
+    }
+
+    public function edit_employee($id, Request $request)
+    {
+        $request->validate([
+            'employee_name' => 'required',
+            'employee_email' => 'required',
+            'employee_ssn' => 'required',
+            'employee_address' => 'required',
+            'employee_phone' => 'required',
+            'employee_role' => 'required',
+        ]);
+
+        $employee = User::find($id);
+        $employee->name = $request->input('employee_name');
+        $employee->email = $request->input('employee_email');
+        $employee->ssn = $request->input('employee_ssn');
+        $employee->address = $request->input('employee_address');
+        $employee->phone = $request->input('employee_phone');
+
+        if($request->input('employee_password') != "")
+        {
+            $employee->password = password_hash($request->input('employee_password'), PASSWORD_BCRYPT);
+        }
+
+        $employee->save();
+
+        UserRole::where('user_id', $id)->update(['role_id' => $request->input('employee_role')]);
+
+        $log = new LogsController();
+        $log->store('edit_employee', $employee->id);
+
+        return redirect()->back()->with('success', 'Employee edited successfully.');
+    }
 }

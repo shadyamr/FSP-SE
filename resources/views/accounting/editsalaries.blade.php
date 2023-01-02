@@ -40,15 +40,15 @@
 @section('scripts')
 
 <script>
-    function addClient() {
-        var corporateName = document.getElementById('corporate_name').value;
-        var corporateAddress = document.getElementById('corporate_address').value;
-        var handler = document.getElementById('handler').value;
+    function editSalary() {
+        var name = document.getElementById('employee_name').value;
+        var esalary = document.getElementById('salary').value;
+        var oldsalary = document.getElementById('o_salary').value;
 
         axios.post('/edit_user_salary', {
-                corporate_name: corporateName,
-                corporate_address: corporateAddress,
-                handler: handler
+                employee_name: name,
+                salary: esalary,
+                o_salary: oldsalary
             })
             .then(function(response) {
                 console.log(response);

@@ -9,7 +9,7 @@
             <p>Editing the inspection of {{ $edit_inspection->requests->corporate_name }} — Request #{{ $edit_inspection->requests->id }}</p>
         </div>
 
-        <form method="POST" action="{{ route('requests.store.edit', $edit_inspection->id) }}">
+        <form method="POST" action="{{ route('inspections.store.edit', $edit_inspection->id) }}" enctype="multipart/form-data">
         @csrf
             <div class="mb-3">
                 <label for="corporate_name" class="form-label">Corporate Name (Request):</label>
@@ -69,7 +69,7 @@
 @section('scripts')
 
 <script>
-    function addClient() {
+    function editInspection() {
         var corporateName = document.getElementById('corporate_name').value;
         var corporateAddress = document.getElementById('corporate_address').value;
         var corporateBudget = document.getElementById('corporate_budget').value;
