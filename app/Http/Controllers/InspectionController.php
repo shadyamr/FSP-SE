@@ -121,6 +121,9 @@ class InspectionController extends Controller
 
         $inspection->save();
 
+        $request = RequestsForm::find($request->get('requests_id'));
+        $request->inspections()->sync($id);
+
         $log = new LogsController();
         $log->store('edit_inspection', $id);
 
