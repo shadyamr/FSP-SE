@@ -44,7 +44,7 @@
                                 Accounting
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="accountingDropDown">
-                                <li><a class="dropdown-item" href="{{ route('accounting.invoice') }}">{{ __('Invoice') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('accounting.invoice') }}">{{ __('Invoices') }}</a></li>
                                 <li><a class="dropdown-item" href="{{ route('accounting.salaries') }}">{{ __('Salaries') }}</a></li>
                                 <!--<li><a class="dropdown-item" href="#">{{ __('Generate Reports') }}</a></li>-->
                             </ul>

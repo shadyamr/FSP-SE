@@ -26,4 +26,9 @@ class RequestsForm extends Model
     {
         return $this->belongsTo(User::class, 'handler', 'id');
     }
+
+    public function inspections()
+    {
+        return $this->belongsToMany(Inspections::class, 'requests_inspections');
+    }
 }

@@ -62,6 +62,9 @@ class InspectionController extends Controller
         ]);
         $submit_inspection->save();
 
+        $request = RequestsForm::find($request->get('requests_id'));
+        $request->inspections()->attach($submit_inspection);
+
         $log = new LogsController();
         $log->store('make_inspection', $submit_inspection->id);
 

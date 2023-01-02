@@ -11,7 +11,7 @@ use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 use App\Models\User;
 use App\Models\RequestsForm;
-use App\Models\RequestsInspections;
+use App\Models\Inspections;
 
 class AccountingController extends Controller
 {
@@ -59,9 +59,13 @@ class AccountingController extends Controller
 
     public function invoice()
     {
-        $all_requests = RequestsForm::all();
-        //return $employees_all;
-        return view('accounting.invoices', compact('all_requests'));
+        $all_inspections = Inspections::with('requests')->get();
+        $all_requests = RequestsForm::with('inspections')
+            ->whereHas('inspections', function ($query) {
+                $query->where('inspection_information', '<>', null);
+            })
+            ->get();
+        return view('accounting.invoices', compact('all_requests', 'all_inspections'));
     }
 
     public function invoice_pdf()
